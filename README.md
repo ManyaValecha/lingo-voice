@@ -18,6 +18,8 @@
 </p>
 
 ---
+<img width="1221" height="807" alt="Screenshot 2026-11-10 at 12 04 21 PM" src="https://github.com/user-attachments/assets/7def23fd-7f59-4c0f-bd18-fa26df61480c" />
+<img width="1623" height="753" alt="Screenshot 2026-11-10 at 12 02 56 PM" src="https://github.com/user-attachments/assets/4de188e9-23ec-41bb-b543-cf469c16121e" />
 
 ## 🌱 The vision
 https://lingoswap-h4ko.vercel.app
