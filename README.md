@@ -23,7 +23,9 @@
 
 
 ## 🌱 The vision
-https://lingoswap-h4ko.vercel.app
+
+https://lingo-voice-zeta.vercel.app
+
 Language should never be the reason someone cannot communicate.
 
 Whether someone is travelling, learning, working, or connecting across cultures, **Lingo Voice** aims to make spoken communication more accessible through AI.
