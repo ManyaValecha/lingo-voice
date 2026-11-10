@@ -16,11 +16,8 @@ export const TTS_LANGUAGES = {
   "hi-en": "Hinglish",
 } as const;
 
-/** The selected Cohere translation model documents Hindi and English, not all STT/TTS locales. */
-export const TRANSLATION_LANGUAGES = {
-  "en-IN": STT_LANGUAGES["en-IN"],
-  "hi-IN": STT_LANGUAGES["hi-IN"],
-} as const;
+/** Translation is enabled for all configured speech-recognition languages. */
+export const TRANSLATION_LANGUAGES = STT_LANGUAGES;
 
 export const TTS_VOICES: Record<keyof typeof TTS_LANGUAGES, readonly string[]> = {
   "bn-IN": ["Kirra", "Dhruva"],

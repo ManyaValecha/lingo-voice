@@ -11,3 +11,4 @@ pnpm-debug.log*
 
 # Keep local demo audio out of the public repository
 /docs/assets/gnani-timbre-live-sample.wav
+.vercel
