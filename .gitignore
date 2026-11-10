@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+.env*
+!.env.example
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Keep local demo audio out of the public repository
+/docs/assets/gnani-timbre-live-sample.wav
