@@ -1,59 +1,153 @@
-# LingOSwap — Voice Without Borders
+# Lingo Voice — Voice Without Borders 🌍🎙️
 
-**Every language deserves a voice. Every voice deserves to be understood.**
+<p align="center">
+  <strong>Every language deserves a voice. Every voice deserves to be understood.</strong>
+</p>
 
-LingOSwap is a multilingual voice translation demo built on the original Next.js LingOSwap codebase. It records or accepts a short audio clip, transcribes it with Gnani Prisma, translates the text with a separate language model, then generates speech with Gnani Timbre.
+<p align="center">
+  An AI-powered multilingual voice translation experience connecting speech recognition, language translation, and natural speech generation.
+</p>
 
-## What works in this codebase
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-15-black?logo=next.js" alt="Next.js 15" />
+  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react" alt="React 18" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Gnani-Prisma%20%2B%20Timbre-6C5CE7" alt="Gnani AI" />
+  <img src="https://img.shields.io/badge/Cohere-Command%20A-39594D" alt="Cohere" />
+  <img src="https://img.shields.io/badge/Status-Working%20Demo-2EA44F" alt="Working Demo" />
+</p>
 
-- Voice recording exported as WAV in the browser, or upload of WAV, MP3, OGG, FLAC, AAC, and M4A.
-- A server route validates file type/size/duration and calls Gnani Prisma STT (`/stt/v3`).
-- A separate Cohere Command A Translate route for Hindi ↔ English. Prisma is speech recognition and Timbre is speech synthesis; neither is presented as a translation model.
-- A server route calls Gnani Timbre v2.5 and returns playable WAV audio for playback/download.
-- Language matched voice selection for the documented language catalog.
-- Text transcript and translation history stored in browser localStorage; raw recordings and audio output are not persisted by LingOSwap.
-- Existing Cohere generational slang rewriter is retained as a separate optional tool.
-- Responsive dark interface, recording/processing/error states, audio controls, copy, retry, and history clearing.
+---
 
-The repository did not contain an authentication system or database before this work. This version therefore does not claim authenticated accounts, cloud history, or user-specific server storage. Production deployment must configure persistent rate limiting (Upstash/Vercel KV). Do not treat the in-process local development limiter as production protection.
+## 🌱 The vision
 
-## Stack and architecture
+Language should never be the reason someone cannot communicate.
 
-- Next.js 15 App Router, React 18, TypeScript, Tailwind CSS.
-- API routes call Gnani from the server; `GNANI_API_KEY` is never read by client components.
-- Voice translation uses Cohere Chat v2 with `command-a-translate-08-2025`, through the server-side `COHERE_API_KEY`. The legacy OpenAI helper remains separate and is not required for the voice pipeline.
-- Browser history is local only. No database is configured.
+Whether someone is travelling, learning, working, or connecting across cultures, **Lingo Voice** aims to make spoken communication more accessible through AI.
+
+Instead of treating voice translation as one black-box operation, Lingo Voice connects three distinct AI capabilities into one experience:
+
+1. **Listen** — Recognise spoken words using Gnani Prisma.
+2. **Understand** — Translate recognised text using Cohere Command A Translate.
+3. **Speak** — Generate natural speech using Gnani Timbre.
+
+The result is a browser-based voice translation workflow that transforms an audio recording into translated, playable speech.
+
+## ✨ Key features
+
+- 🎤 **Speak or upload:** Record directly in the browser or upload an existing audio file.
+- 🧠 **AI speech recognition:** Convert audio into text using Gnani Prisma.
+- 🌐 **AI translation:** Translate Hindi ↔ English using Cohere Command A Translate.
+- 🔊 **Natural speech generation:** Convert translated text into playable speech using Gnani Timbre v2.5.
+- 🗣️ **Language-aware voice selection:** Match voice choices to the supported language configuration.
+- 📜 **Local translation history:** Revisit recent transcripts and translations stored in the browser.
+- 📱 **Responsive interface:** Use the experience across desktop and mobile-sized screens.
+- ✍️ **Additional text tool:** Includes a separate Cohere-powered generational slang rewriter.
+
+## 🔄 How it works
+
+<p align="center">
+  <strong>One recording. Three AI stages. A spoken translation.</strong>
+</p>
 
 ```mermaid
-flowchart LR
-  UI[Browser microphone or audio upload] --> STT[POST /api/voice/transcribe]
-  STT --> P[Gnani Prisma REST]
-  P --> TR[POST /api/voice/translate]
-  TR --> L[Cohere Command A Translate · Hindi/English]
-  L --> TTS[POST /api/voice/synthesize]
-  TTS --> G[Gnani Timbre v2.5 REST]
-  G --> WAV[Binary WAV response]
-  WAV --> UI
-  UI --> H[Browser localStorage text history]
+flowchart TD
+    A["🎤 Record or upload audio"] --> B["Gnani Prisma"]
+    B --> C["Speech-to-text transcript"]
+    C --> D["Cohere Command A Translate"]
+    D --> E["Translated text"]
+    E --> F["Gnani Timbre v2.5"]
+    F --> G["🔊 Generated WAV speech"]
+    G --> H["Listen or download"]
+    C --> I["Browser-local text history"]
+    E --> I
 ```
 
-## Run locally
+### The AI pipeline
 
-Requirements: Node.js 20 or newer and npm.
+| Stage | Technology | Responsibility |
+|---|---|---|
+| Speech recognition | Gnani Prisma REST API | Converts recorded speech into text |
+| Translation | Cohere Command A Translate | Translates Hindi ↔ English |
+| Speech synthesis | Gnani Timbre v2.5 | Generates spoken audio |
+| Frontend | Next.js + React | Recording, upload, playback and interaction |
+| Local history | Browser localStorage | Stores recent transcript and translation text |
+
+**Architecture principle:** Prisma handles speech recognition, Cohere handles translation, and Timbre handles speech synthesis. Each provider has a clearly defined role.
+
+## 🛠️ Technology stack
+
+| Layer | Technologies |
+|---|---|
+| Framework | Next.js 15 App Router |
+| UI | React 18, TypeScript, Tailwind CSS |
+| Speech-to-text | Gnani Prisma |
+| Translation | Cohere Command A Translate |
+| Text-to-speech | Gnani Timbre v2.5 |
+| API architecture | Next.js server-side API routes |
+| Browser storage | localStorage |
+| Testing | Vitest |
+
+## 🌍 Language support
+
+Lingo Voice uses Gnani's documented Indian-language speech capabilities while keeping the currently enabled translation experience explicit.
+
+**Currently enabled translation pair:**
+
+- Hindi (`hi-IN`) → English (`en-IN`)
+- English (`en-IN`) → Hindi (`hi-IN`)
+
+Other documented Prisma and Timbre language locales are not represented as fully working end-to-end translation pairs in the current UI.
+
+Speech recognition and speech generation support do not automatically mean that a language pair is supported by the configured translation model.
+
+## 🚀 Getting started
+
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+- Gnani API access
+- Cohere API access
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/ManyaValecha/lingo-voice.git
+cd lingo-voice
+```
+
+### 2. Install dependencies
 
 ```bash
 npm ci
+```
+
+### 3. Configure environment variables
+
+Create your local environment file:
+
+```bash
 cp .env.example .env.local
 ```
 
-Set these server-side in `.env.local` (or your deployment secret manager):
+Add your API credentials:
 
 ```dotenv
 GNANI_API_KEY=your_gnani_api_key
 COHERE_API_KEY=your_cohere_api_key
 ```
 
-For production voice endpoints, configure `KV_REST_API_URL` and `KV_REST_API_TOKEN` for persistent rate limiting. Never place these secret values in `NEXT_PUBLIC_*` variables or commit `.env.local`.
+For production voice endpoints, configure persistent rate-limiting credentials:
+
+```dotenv
+KV_REST_API_URL=your_kv_rest_api_url
+KV_REST_API_TOKEN=your_kv_rest_api_token
+```
+
+**Security:** Keep API keys server-side. Never expose provider credentials through `NEXT_PUBLIC_*` variables or commit `.env.local`.
+
+### 4. Run the application
 
 ```bash
 npm run dev
@@ -61,13 +155,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Supported languages and models
+## 🧪 Testing and verification
 
-The voice models document ten BCP-47 Indian language codes. The complete UI translation flow currently enables Hindi (`hi-IN`) ↔ English (`en-IN`) because these are the supported pair within Cohere Command A Translate's documented 23 languages. Other Prisma/Timbre locales are shown as disabled in the flow; they are not claimed as fully translated. The Prisma REST docs specify WAV, MP3, OGG, FLAC, AAC, and M4A, sample rates from 8 kHz to 44.1 kHz in Quick Start, and a maximum duration of 60 seconds (30 seconds or less ideal).
-
-Timbre v2.5 docs list those ten languages and Hinglish (`hi-en`) with preferred voice choices. The active TTS model is `timbre-v2.5`. The public Prisma REST parameter list does not document a model field or `indic-auto`; this app sends only documented fields. Confirm current model/account access in your Gnani dashboard. See [docs/GNANI_AI_INTEGRATION.md](docs/GNANI_AI_INTEGRATION.md) for full contract details and known discrepancies.
-
-## Tests and checks
+Run the project's checks:
 
 ```bash
 npm test
@@ -75,25 +165,85 @@ npm run lint
 npm run build
 ```
 
-Vitest mocks provider responses and does not make live requests or consume Gnani credits. Separately, one live Prisma request and one live Timbre request have succeeded through the local app routes; see [the recorded verification](docs/GNANI_AI_INTEGRATION.md). The translation provider and complete browser workflow remain unverified live.
+### Verification status
 
-## Privacy and service requirements
+| Component | Verification |
+|---|---|
+| Vitest provider-mocked tests | Available; no live API credits consumed |
+| Gnani Prisma | One successful individual live request through the local app route |
+| Gnani Timbre | One successful individual live request through the local app route |
+| Cohere translation route | One authorized Hindi-to-English route check |
+| Complete browser-to-browser voice workflow | Not yet fully verified live |
+| Production security and deployment | Not yet verified |
 
-- Audio is sent to Gnani for speech recognition; it is not stored in LingOSwap history.
+Individual provider checks should not be confused with a fully verified end-to-end workflow.
+
+## 🔐 Privacy and responsible AI
+
+Voice applications handle personal information, so understanding the data flow matters.
+
+- Audio recordings are sent to Gnani for speech recognition.
 - Transcript text and selected languages are sent to the configured translation provider.
-- The translated text, voice, and language are sent to Gnani for speech generation.
-- Recent transcript/translation text is kept in browser localStorage on this device only.
-- The API currently has no login/authentication layer because none existed in the supplied project. Endpoints use request validation and rate limits but are not user-authenticated.
-- A complete privacy/compliance review of provider retention and deployment location is outside the current code verification.
+- Translated text, voice selection, and language information are sent to Gnani for speech generation.
+- Raw recordings and generated audio are not persisted in Lingo Voice's browser history.
+- Recent transcript and translation text are stored in browser `localStorage` on the user's device.
+- The current implementation does not include user authentication or a database.
 
-## Challenge demo materials
+Provider retention policies and deployment-specific compliance requirements should be reviewed before production use.
 
-The implementation checklist, limitations, and smoke-test notes are in [docs/GNANI_AI_INTEGRATION.md](docs/GNANI_AI_INTEGRATION.md). A concise demo narration and social announcement draft are in [docs/CHALLENGE_DEMO.md](docs/CHALLENGE_DEMO.md).
+## ⚙️ Engineering considerations
 
-## Original project feature
+The application includes:
 
-The original Cohere-backed Gen Z/Millennial/Boomer text rewriter remains available under “Original LingOSwap text style tool.” It uses `COHERE_API_KEY` if you want to use that feature.
+- Server-side provider API calls to protect credentials.
+- Audio file type, size, and duration validation.
+- Browser WAV recording and audio playback/download.
+- Loading, success, retry, and error states.
+- Browser-local translation history management.
+- Request rate limiting, with persistent KV configuration required for production.
 
-## Deployment
+**Production readiness:** This is a working demo, not a production-hardened service. Persistent rate limiting, authentication, full end-to-end testing, and a deployment security review remain necessary before public production use.
 
-Deploy the original Next.js app to a Node-compatible Next.js host. Configure `GNANI_API_KEY`, `COHERE_API_KEY`, and persistent `KV_REST_API_URL`/`KV_REST_API_TOKEN` as server-side secrets. Do not publicly expose the current unauthenticated voice routes. Prisma and Timbre each passed one prior individual live check, and Cohere passed one authorized Hindi-to-English route check. The full browser workflow, mobile experience, and production security remain unverified; this project is not production-ready.
+## 📁 Project documentation
+
+Explore the technical documentation included in the repository:
+
+- [`docs/GNANI_AI_INTEGRATION.md`](docs/GNANI_AI_INTEGRATION.md) — Provider integration contracts, implementation notes, verification, and known discrepancies.
+- [`docs/CHALLENGE_DEMO.md`](docs/CHALLENGE_DEMO.md) — Demo narration, implementation checklist, and social announcement draft.
+
+## 🔮 What's next?
+
+Lingo Voice is designed to grow beyond its current Hindi–English demo.
+
+Potential future improvements include:
+
+- Expanding the translation pipeline to additional Indian languages.
+- Testing complete end-to-end speech translation across supported devices.
+- Improving speech quality, latency, and error recovery.
+- Adding secure user accounts and optional synchronised history.
+- Introducing persistent production-grade rate limiting.
+- Evaluating translation quality and speech recognition accuracy across accents and recording conditions.
+
+These are future development directions, not claims about features already implemented.
+
+## 💜 The bigger picture
+
+India speaks in hundreds of voices, accents, and languages. Technology should bring those voices closer, not make communication harder.
+
+Lingo Voice is a step toward a world where language becomes a bridge rather than a barrier.
+
+<p align="center">
+  <strong>LISTEN. UNDERSTAND. SPEAK.</strong>
+  <br />
+  <em>Voice Without Borders.</em>
+</p>
+
+---
+
+<p align="center">
+  Built with curiosity, engineering, and a belief in accessible AI.
+  <br />
+  <strong>Manya Valecha</strong>
+  <br />
+  <a href="https://github.com/ManyaValecha">GitHub</a> · <a href="https://github.com/ManyaValecha/lingo-voice">Repository</a>
+</p>
